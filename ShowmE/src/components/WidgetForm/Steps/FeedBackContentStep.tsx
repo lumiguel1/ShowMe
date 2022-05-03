@@ -8,6 +8,7 @@ import { ScreenShotButton } from "../ScreenShotButton";
 interface feedBackContentProps {
     onFeedContent: FeedBackType;
     onFeedBackRestarRequested: () => void;
+    onFeedBackSend: () => void;
 }
 
 export function FeedBackContentStep(props: feedBackContentProps) {
@@ -18,6 +19,8 @@ export function FeedBackContentStep(props: feedBackContentProps) {
 
     function handleSubmitFeedback(event: FormEvent) {
         event.preventDefault();
+
+        props.onFeedBackSend();
     }
 
     return(

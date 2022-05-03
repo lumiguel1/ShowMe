@@ -4,6 +4,7 @@ import thoughtImageUrl from '../../assets/thought.svg';
 import { useState } from 'react';
 import { FeedBackTypeStep } from "./Steps/FeedBackTypeStep";
 import { FeedBackContentStep } from "./Steps/FeedBackContentStep";
+import { FeedBackSuccessStep } from './Steps/FeedBackSuccessStep';
 
 export const feedTypes = {
     BUG: {
@@ -33,20 +34,30 @@ export type FeedBackType = keyof typeof feedTypes
 
 export function WidgetForm() {
     const [feedBackType, setFeedBackType] = useState<FeedBackType | null>(null);
+    const [feedBackSend, setFeedBackSend] = useState(false);
+
 
     function handleRestartFeedBack() {
         setFeedBackType(null);
+        setFeedBackSend(false);
     }
 
     return (
         <div className="bg-zinc-900 p-4 relative rounded-2xl mb-4 flex flex-col items-center shadow-lg w-[calc(100vw-2rem)] md:w-auto">
-            {!feedBackType ? (
-                <FeedBackTypeStep onFeedType={setFeedBackType}/>
+            { feedBackSend ? (
+                <FeedBackSuccessStep onFeedBackRestartRequest={handleRestartFeedBack}/>
             ) : 
-                <FeedBackContentStep 
-                    onFeedContent={feedBackType}
-                    onFeedBackRestarRequested={handleRestartFeedBack}    
-                />
+                <>
+                    {!feedBackType ? (
+                    <FeedBackTypeStep onFeedType={setFeedBackType}/>
+                ) : 
+                    <FeedBackContentStep 
+                        onFeedContent={feedBackType}
+                        onFeedBackRestarRequested={handleRestartFeedBack}
+                        onFeedBackSend={() => setFeedBackSend(true)}
+                    />
+                }
+                </>
             }
             
             <footer className="text-xs text-neutral-400">
