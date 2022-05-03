@@ -1,15 +1,31 @@
 import { ButtonClose } from "./ButtonClose";
+import bugImageUrl from '../assets/bug.svg';
+import ideaImageUrl from '../assets/idea.svg';
+import thoughtImageUrl from '../assets/thought.svg';
+import { useDebugValue } from "react";
 
 const feedTypes = {
     BUG: {
-        title: "Problema"
+        title: "Problema",
+        image: {
+            source: bugImageUrl,
+            alt: 'Imagem de um inseto',
+        },
     },
     IDEA: {
-        title: "Ideia"
+        title: "Ideia",
+        image: {
+            source: ideaImageUrl,
+            alt: 'Imagem de uma lampada',
+        },
     },
     OTHER: {
-        title: "Outro"
-    }
+        title: "Outro",
+        image: {
+            source: thoughtImageUrl,
+            alt: 'Nuvem de pensamento',
+        },
+    },
 }
 
 export function WidgetForm() {
@@ -22,11 +38,18 @@ export function WidgetForm() {
             </header>
 
             <div className="flex py-8 gap-2 w-full">
-
+                { Object.entries(feedTypes).map(([key, value]) => {
+                    return (
+                        <button>
+                            <img src={value.image.source} alt={value.image.alt} />
+                            <span>{value.title}</span>
+                        </button>
+                    );
+                })}
             </div>
             
             <footer className="text-xs text-neutral-400">
-                <a className="underline underline-offset-1" href="#">Vite app</a>
+                <a className="underline underline-offset-1" href="#">Vite appA</a>
             </footer>
         </div>
     )
