@@ -1,4 +1,5 @@
 import { ArrowLeft } from "phosphor-react";
+import { useState } from "react";
 import { FeedBackType, feedTypes } from "..";
 import { ButtonClose } from "../../ButtonClose";
 import { ScreenShotButton } from "../ScreenShotButton";
@@ -10,7 +11,7 @@ interface feedBackContentProps {
 }
 
 export function FeedBackContentStep(props: feedBackContentProps) {
-
+    const [screenshot, setScreenshot] = useState<string | null>(null)
     const feedInfoTypes = feedTypes[props.onFeedContent];
 
     return(
@@ -39,7 +40,7 @@ export function FeedBackContentStep(props: feedBackContentProps) {
 
                 <footer className="flex gap-2 mt-2">
                     
-                    <ScreenShotButton />
+                    <ScreenShotButton onScreenShotReady={setScreenshot}/>
 
                     <button type="submit"
                         className="p-2 bg-brand-500 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 transition-colors"
