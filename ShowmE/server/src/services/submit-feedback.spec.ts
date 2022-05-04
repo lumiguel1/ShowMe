@@ -1,8 +1,11 @@
 import { SubmitFeedBackService } from "./submit-feedback"
 
+const createFeedBackSpy = jest.fn();
+const sendMailSpy = jest.fn();
+
 const submitFeedBack = new SubmitFeedBackService(
-    { create: async () => {}},
-    { sendMail: async () => {}}
+    { create: createFeedBackSpy},
+    { sendMail: sendMailSpy}
 )
 
 describe('Submit feedback', () => {
@@ -12,6 +15,9 @@ describe('Submit feedback', () => {
             comment: 'teste',
             screenshot: 'data:image/png;base64'
         })).resolves.not.toThrow();
+
+        expect(createFeedBackSpy).toHaveBeenCalled();
+        expect(sendMailSpy).toHaveBeenCalled();
     });
 
     it('should not be able to submit without type', async () => {
