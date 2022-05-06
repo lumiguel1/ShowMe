@@ -40,6 +40,7 @@ export class SubmitFeedBackService {
                 `<div style="font-family: sens-serif; font-size: 16px; color: #111">`,
                     `<p>Tipo do Feedback: ${type}</p>`,
                     `<p>Comentário: ${comment}</p>`,
+                    `<img src="${screenshot}"/>`,
                 `</div>`,
             ].join('\n'),
         })
