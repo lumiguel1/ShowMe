@@ -1,7 +1,9 @@
 import { ArrowLeft } from "phosphor-react";
 import { FormEvent, useState } from "react";
 import { FeedBackType, feedTypes } from "..";
+import { api } from "../../../Services/api";
 import { ButtonClose } from "../../ButtonClose";
+import { Loading } from "../Loading";
 import { ScreenShotButton } from "../ScreenShotButton";
 
 
@@ -14,12 +16,20 @@ interface feedBackContentProps {
 export function FeedBackContentStep(props: feedBackContentProps) {
     const [screenshot, setScreenshot] = useState<string | null>(null);
     const [comment, setComment] = useState('');
+    const [isSendingLoading, setIsSendingLoading] = useState(false)
     const feedInfoTypes = feedTypes[props.onFeedContent];
 
 
-    function handleSubmitFeedback(event: FormEvent) {
+    async function handleSubmitFeedback(event: FormEvent) {
         event.preventDefault();
+        setIsSendingLoading(true)
+        await api.post('/feedbacks', {
+            type: props.onFeedContent,
+            comment,
+            screenshot
+        });
 
+        setIsSendingLoading(false)
         props.onFeedBackSend();
     }
 
@@ -56,10 +66,10 @@ export function FeedBackContentStep(props: feedBackContentProps) {
                     />
 
                     <button type="submit"
-                        disabled={comment.length == 0}
+                        disabled={comment.length == 0 || isSendingLoading}
                         className="p-2 bg-brand-500 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 transition-colors disabled:opacity-50 disabled:hover:bg-brand-500"
                     >
-                        Enviar Feedback!
+                        { isSendingLoading ? <Loading /> : 'Enviar Feedback!'}
                     </button>
                 </footer>
             </form>
